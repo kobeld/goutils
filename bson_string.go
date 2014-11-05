@@ -1,32 +1,29 @@
 package goutils
 
 import (
-	"encoding/hex"
 	"fmt"
 	"labix.org/v2/mgo/bson"
 	"strings"
 )
 
-func ToObjectId(id string) (bid bson.ObjectId, err error) {
-	var d []byte
-	d, err = hex.DecodeString(id)
-	if err != nil || len(d) != 12 {
-		err = fmt.Errorf("Invalid input to ObjectIdHex: %q", id)
+func ToObjectId(idHex string) (id bson.ObjectId, err error) {
+	if !bson.IsObjectIdHex(idHex) {
+		err = fmt.Errorf("Invalid input to ObjectIdHex: %q", idHex)
 		return
 	}
-	bid = bson.ObjectId(d)
+	id = bson.ObjectId(idHex)
 	return
 }
 
 // ["1", "2", "3"] -> [ObjectId("1"), ObjectId("2"), ObjectId("3")]
-func TurnPlainIdsToObjectIds(ids []string) (r []bson.ObjectId) {
-	for _, id := range ids {
+func TurnPlainIdsToObjectIds(idHexes []string) (r []bson.ObjectId, err error) {
+	for _, id := range idHexes {
 		if strings.Trim(id, " 　") == "" {
 			continue
 		}
 		oId, err := ToObjectId(id)
 		if err != nil {
-			continue
+			return r, err
 		}
 		r = append(r, oId)
 	}

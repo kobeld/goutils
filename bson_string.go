@@ -11,7 +11,7 @@ func ToObjectId(idHex string) (id bson.ObjectId, err error) {
 		err = fmt.Errorf("Invalid input to ObjectIdHex: %q", idHex)
 		return
 	}
-	id = bson.ObjectId(idHex)
+	id = bson.ObjectIdHex(idHex)
 	return
 }
 

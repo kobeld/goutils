@@ -6,10 +6,10 @@ import (
 )
 
 // Set true to enable the stack tracker
-var enabled = false
+var enabled = true
 
-func EnablePrintStack() {
-	enabled = true
+func DisablePrintStack() {
+	enabled = false
 }
 
 func PrintStackAndError(err error) {
@@ -17,4 +17,13 @@ func PrintStackAndError(err error) {
 		log.Printf("********** Debug Error message: %+v ***********\n", err)
 		debug.PrintStack()
 	}
+}
+
+func HasErrorAndPrintStack(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	PrintStackAndError(err)
+	return true
 }

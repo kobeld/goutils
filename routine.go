@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func CoveredGo(f func()) {
+func CoveredGo(funcs ...func()) {
 	go func() {
 		defer func() {
 			if r := recover(); r != nil {
@@ -13,6 +13,8 @@ func CoveredGo(f func()) {
 			}
 		}()
 
-		f()
+		for _, f := range funcs {
+			f()
+		}
 	}()
 }

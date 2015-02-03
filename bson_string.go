@@ -2,8 +2,9 @@ package goutils
 
 import (
 	"fmt"
-	"gopkg.in/mgo.v2/bson"
 	"strings"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
 func ToObjectId(idHex string) (id bson.ObjectId, err error) {
@@ -13,6 +14,14 @@ func ToObjectId(idHex string) (id bson.ObjectId, err error) {
 	}
 	id = bson.ObjectIdHex(idHex)
 	return
+}
+
+// The Lite version of ToObjectId with no error return
+func ToObjectIdOrBlank(idHex string) bson.ObjectId {
+	if !bson.IsObjectIdHex(idHex) {
+		return ""
+	}
+	return bson.ObjectIdHex(idHex)
 }
 
 // ["1", "2", "3"] -> [ObjectId("1"), ObjectId("2"), ObjectId("3")]

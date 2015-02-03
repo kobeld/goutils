@@ -8,13 +8,13 @@ import (
 )
 
 var (
-	nsqAddr    string
-	lookupAddr string
+	defaultNsqAddr    string
+	defaultLookupAddr string
 )
 
 func SetupNsqConfig(nsqAddr, lookupAddr string) {
-	nsqAddr = nsqAddr
-	lookupAddr = lookupAddr
+	defaultNsqAddr = nsqAddr
+	defaultLookupAddr = lookupAddr
 	return
 }
 
@@ -35,8 +35,7 @@ func RegisterNsqConsumers(consumers []Consumer) (err error) {
 		}
 
 		nsqConsumer.AddHandler(consumer)
-
-		err = nsqConsumer.ConnectToNSQLookupd(lookupAddr)
+		err = nsqConsumer.ConnectToNSQLookupd(defaultLookupAddr)
 		if err != nil {
 			goutils.PrintStackAndError(err)
 			return err
@@ -54,7 +53,7 @@ func getNsqProducer() (*nsq.Producer, error) {
 	var err error
 	if defaultNsqProducer == nil {
 		config := nsq.NewConfig()
-		defaultNsqProducer, err = nsq.NewProducer(nsqAddr, config)
+		defaultNsqProducer, err = nsq.NewProducer(defaultNsqAddr, config)
 		if err != nil {
 			goutils.PrintStackAndError(err)
 			return nil, err

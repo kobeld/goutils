@@ -27,3 +27,13 @@ func HasErrorAndPrintStack(err error) bool {
 	PrintStackAndError(err)
 	return true
 }
+
+func PrintStackButSwallowError(err error) {
+	if err == nil {
+		return
+	}
+
+	PrintStackAndError(err)
+	err = nil
+	return
+}

@@ -26,7 +26,7 @@ func Hash(email string) string {
 }
 
 func Url(email string) string {
-	return "http://www.gravatar.com/avatar/" + Hash(email)
+	return "http://gravatar.com/avatar/" + Hash(email)
 }
 
 func UrlDefault(email, defaultURL string) string {
@@ -35,7 +35,7 @@ func UrlDefault(email, defaultURL string) string {
 
 // You may request images anywhere from 1px up to 512px
 func UrlSize(email string, size int) string {
-	return fmt.Sprintf("http://www.gravatar.com/avatar/%s?s=%d", Hash(email), size)
+	return fmt.Sprintf("http://gravatar.com/avatar/%s?s=%d", Hash(email), size)
 }
 
 func UrlSizeDefault(email string, size int, defaultURL string) string {
@@ -59,7 +59,7 @@ func SecureUrlSizeDefault(email string, size int, defaultURL string) string {
 }
 
 func Available(email string) (ok bool, err error) {
-	url := fmt.Sprintf("http://www.gravatar.com/avatar/%s?d=404", Hash(email))
+	url := fmt.Sprintf("http://gravatar.com/avatar/%s?d=404", Hash(email))
 	response, err := http.Get(url)
 	if err != nil {
 		return false, err

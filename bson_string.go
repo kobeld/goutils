@@ -24,6 +24,13 @@ func ToObjectIdOrBlank(idHex string) bson.ObjectId {
 	return bson.ObjectIdHex(idHex)
 }
 
+func ToObjectIdOrBlankInterface(id bson.ObjectId) interface{} {
+	if id.Valid() {
+		return id
+	}
+	return ""
+}
+
 // ["1", "2", "3"] -> [ObjectId("1"), ObjectId("2"), ObjectId("3")]
 func TurnPlainIdsToObjectIds(idHexes []string) (r []bson.ObjectId, err error) {
 	for _, id := range idHexes {

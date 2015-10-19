@@ -37,3 +37,9 @@ func PrintStackButSwallowError(err error) {
 	err = nil
 	return
 }
+
+func PanicIfError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}

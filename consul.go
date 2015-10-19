@@ -8,13 +8,21 @@ import (
 	"github.com/hashicorp/consul/api"
 )
 
-const (
-	CONSUL_ADDRESS = "172.17.42.1:8500"
-)
+var docker_ip string
+
+func SetDockerIP(addr string) {
+	docker_ip = addr
+}
 
 func GetConsulClient() (client *api.Client, err error) {
+
+	if docker_ip == "" {
+		err = errors.New("Please set the Docker IP address.")
+		return
+	}
+
 	config := api.DefaultConfig()
-	config.Address = CONSUL_ADDRESS
+	config.Address = docker_ip
 
 	client, err = api.NewClient(config)
 	if HasErrorAndPrintStack(err) {
@@ -33,7 +41,7 @@ func GetConsulServiceAddress(serviceName string) (addr string, err error) {
 
 	catalog := client.Catalog()
 	if catalog == nil {
-		err = errors.New(fmt.Sprintf("Error: Can't get catalog in: %s", CONSUL_ADDRESS))
+		err = errors.New(fmt.Sprintf("Error: Can't get catalog in: %s", docker_ip))
 		return
 	}
 
@@ -43,7 +51,7 @@ func GetConsulServiceAddress(serviceName string) (addr string, err error) {
 	}
 
 	if len(services) == 0 {
-		err = errors.New(fmt.Sprintf("Error: %s has no service: %s", CONSUL_ADDRESS, serviceName))
+		err = errors.New(fmt.Sprintf("Error: %s has no service: %s", docker_ip, serviceName))
 		return
 	}
 

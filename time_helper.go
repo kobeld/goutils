@@ -29,3 +29,8 @@ func FormatTime(theTime time.Time, layout string) (r string) {
 
 	return theTime.Format(layout)
 }
+
+// Millisecond e.g. 1445485125599
+func MillisecondToTime(ms int64) time.Time {
+	return time.Unix(0, ms*int64(time.Millisecond))
+}

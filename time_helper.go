@@ -1,6 +1,8 @@
 package goutils
 
 import (
+	"fmt"
+	"strconv"
 	"time"
 )
 
@@ -31,6 +33,17 @@ func FormatTime(theTime time.Time, layout string) (r string) {
 }
 
 // Millisecond e.g. 1445485125599
-func MillisecondToTime(ms int64) time.Time {
-	return time.Unix(0, ms*int64(time.Millisecond))
+func MillisecondToTime(ms string) (theTime time.Time, err error) {
+
+	msInt, err := strconv.ParseInt(ms, 10, 64)
+	if HasErrorAndPrintStack(err) {
+		return
+	}
+
+	theTime = time.Unix(0, msInt*int64(time.Millisecond))
+	return
+}
+
+func TimeToMillisecond(theTime time.Time) string {
+	return fmt.Sprintf("%d", theTime.UnixNano()/int64(time.Millisecond))
 }

@@ -3,6 +3,8 @@ package goutils
 import (
 	"log"
 	"runtime/debug"
+
+	"gopkg.in/mgo.v2"
 )
 
 // Set true to enable the stack tracker
@@ -15,7 +17,11 @@ func DisablePrintStack() {
 func PrintStackAndError(err error) {
 	if enabled {
 		log.Printf("********** Debug Error message: %+v ***********\n", err)
-		debug.PrintStack()
+
+		// Don't print the stack for the Not Found error of mgo
+		if err != mgo.ErrNotFound {
+			debug.PrintStack()
+		}
 	}
 }
 

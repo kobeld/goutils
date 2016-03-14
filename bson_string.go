@@ -62,3 +62,15 @@ func IsInObjectIds(tragetId bson.ObjectId, ids []bson.ObjectId) bool {
 	}
 	return false
 }
+
+// "1,2,3" -> [ObjectId("1"), ObjectId("2"), ObjectId("3")]
+func TurnCommaStringsToObjectIds(commaStr string) (r []bson.ObjectId) {
+	ids := strings.Split(commaStr, ",")
+	for _, id := range ids {
+		if strings.Trim(id, " 　") == "" {
+			continue
+		}
+		r = append(r, bson.ObjectIdHex(id))
+	}
+	return
+}

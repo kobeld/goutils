@@ -34,13 +34,13 @@ func HasErrorAndPrintStack(err error) bool {
 	return true
 }
 
-func PrintStackButSwallowError(err error) {
-	if err == nil {
+func PrintStackButSwallowError(err *error) {
+	if *err == nil {
 		return
 	}
 
-	PrintStackAndError(err)
-	err = nil
+	PrintStackAndError(*err)
+	*err = nil
 	return
 }
 
